@@ -12,8 +12,9 @@ def main(sc, file_path, output_folder):
     reader = csv.reader(records)
     
     for row in reader:
-      (product_ID,year,company) = (row[1], row[0].split("-")[0], row[7])
-      yield ((product_ID.lower(),year,company.lower()), 1)
+      if(row[1] and row[0] and row[7]):
+        (product_ID,year,company) = (row[1], row[0].split("-")[0], row[7])
+        yield ((product_ID.lower(),year,company.lower()), 1)
 
   def toCSVLine(data):
     return ','.join(str(d) for d in data)
