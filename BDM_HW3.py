@@ -13,8 +13,11 @@ def main(sc, file_path, output_folder):
     
     for row in reader:
       if(len(row) > 0):
-        (product_ID,year,company) = (row[1], row[0].split("-")[0], row[7])
-        yield ((product_ID.lower(),year,company.lower()), 1)
+        product_ID = row[1].lower()
+        year = row[0].split("-")[0]
+        company = row[7].lower()
+
+        yield ((product_ID,year,company), 1)
 
   def toCSVLine(data):
     return ','.join(str(d) for d in data)
