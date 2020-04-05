@@ -12,7 +12,7 @@ def main(sc, file_path, output_folder):
     reader = csv.reader(records)
     
     for row in reader:
-      if(row[1] and row[0] and row[7]):
+      if(len(row) > 0):
         (product_ID,year,company) = (row[1], row[0].split("-")[0], row[7])
         yield ((product_ID.lower(),year,company.lower()), 1)
 
