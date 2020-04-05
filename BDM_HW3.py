@@ -12,7 +12,7 @@ def main(sc, file_path, output_folder):
     reader = csv.reader(records)
     
     for row in reader:
-      if(len(row) > 0):
+      if(len(row) >= 7):
         product_ID = row[1].lower()
         year = row[0].split("-")[0]
         company = row[7].lower()
