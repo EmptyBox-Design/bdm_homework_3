@@ -2,7 +2,7 @@ from pyspark import SparkContext
 
 def main(sc, file_path, output_folder):
 
-  import csv, io
+  import csv
   
   def extractProducts(partId, records):
 
@@ -19,13 +19,13 @@ def main(sc, file_path, output_folder):
 
         yield ((product_ID,year,company), 1)
 
-  # def toCSVLine(data):
-  #   return ','.join(str(d) for d in data)
+  def toCSVLine(data):
+    return ','.join(str(d) for d in data)
 
-  def list_to_csv_str(x):
-    output = io.StringIO("")
-    csv.writer(output).writerow(x)
-    return output.getvalue().strip() # remove extra newline
+  # def list_to_csv_str(x):
+  #   output = io.StringIO("")
+  #   csv.writer(output).writerow(x)
+  #   return output.getvalue().strip() # remove extra newline
 
   product_data = sc.textFile(file_path, use_unicode=True).cache()
 
@@ -37,7 +37,7 @@ def main(sc, file_path, output_folder):
     .mapValues(lambda x: (sum(list(x)),len(x), max([int(round(((z / sum(list(x))) *100), 0)) for z in list(x)])))\
     .sortByKey() \
     .map(lambda x: list(x[0] + x[1]))\
-    .map(list_to_csv_str)\
+    .map(toCSVLine)\
     .saveAsTextFile(output_folder)
 
 if __name__ == "__main__":
